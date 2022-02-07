@@ -10,13 +10,15 @@ RUN pip3 install --no-cache --upgrade pip setuptools
 RUN apk add terraform --repository=http://dl-cdn.alpinelinux.org/alpine/v3.14/main
 # Add Git
 RUN apk add git 
-RUN apk add curl 
-# Add Gcloud command 
-RUN curl -sSL https://sdk.cloud.google.com | bash
+RUN apk add curl
 # Add kubectl 
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 RUN chmod +x ./kubectl
 RUN mv ./kubectl /usr/local/bin
+# Add kustomize 
+RUN set -ex; \
+    curl -fL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v${KUSTOMIZE_VERSION}/kustomize_v${KUSTOMIZE_VERSION}_${TARGETOS}_${TARGETARCH}.tar.gz | tar xz && \
+    chmod +x kustomize
 # Add helm
 RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
     && chmod +x get_helm.sh && ./get_helm.sh
