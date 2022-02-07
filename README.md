@@ -12,5 +12,4 @@ Following are the list of libraries added to alpine image :
 - kustomize
 
 # Docker Commands 
-    docker build -t tiwarisanjay/devops-essentials:2.0.0 .
-    
+   docker build -t tiwarisanjay/devops-essentials:2.0.0 --build-arg KUSTOMIZE_VERSION=4.4.1 .
