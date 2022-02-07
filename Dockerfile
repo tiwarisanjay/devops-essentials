@@ -1,4 +1,7 @@
 FROM alpine:3.13.6
+
+ARG KUSTOMIZE_VERSION
+
 RUN apk update && apk add bash
 RUN apk add openssl 
 # Add Python
@@ -16,9 +19,9 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
 RUN chmod +x ./kubectl
 RUN mv ./kubectl /usr/local/bin
 # Add kustomize 
-RUN set -ex; \
-    curl -fL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v${KUSTOMIZE_VERSION}/kustomize_v${KUSTOMIZE_VERSION}_${TARGETOS}_${TARGETARCH}.tar.gz | tar xz && \
-    chmod +x kustomize
+RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+RUN chmod +x kustomize
+RUN mv ./kustomize /usr/local/bin
 # Add helm
 RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
     && chmod +x get_helm.sh && ./get_helm.sh
